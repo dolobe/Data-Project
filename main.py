@@ -2,6 +2,7 @@ import os
 import requests
 import pymongo
 import pandas as pd
+import time
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -65,16 +66,17 @@ def get_album_tracks(album_id, access_token):
 def insert_data_into_mongo(data, collection):
     collection.insert_one(data)
 
-def retrieve_artists_info_from_csv(csv_file):
+def retrieve_artists_info_from_csv(csv_file, limit=300):
     df = pd.read_csv(csv_file)
-    
     artist_names = df['artist_name'].tolist()
-    
     access_token = get_access_token()
 
+    count = 0
     for artist_name in artist_names:
-        artist_id = search_artist(artist_name, access_token)
+        if count >= limit:
+            break
 
+        artist_id = search_artist(artist_name, access_token)
         if artist_id:
             artist_info = get_artist_info(artist_id, access_token)
             albums = get_artist_albums(artist_id, access_token)
@@ -108,6 +110,22 @@ def retrieve_artists_info_from_csv(csv_file):
 
             insert_data_into_mongo(artist_data, collection)
             print(f"The data for artist {artist_name} has been inserted into MongoDB.")
+            count += 1
 
-csv_file_path = 'split_artists/artists_chunk_2.csv'
-retrieve_artists_info_from_csv(csv_file_path)
+def process_multiple_csv_files(base_path, limit_per_hour=300):
+    file_index = 2
+    while True:
+        csv_file = f"{base_path}/artists_chunk_{file_index}.csv"
+        if not os.path.exists(csv_file):
+            print(f"File {csv_file} not found. Stopping the process.")
+            break
+
+        print(f"Processing file: {csv_file}")
+        retrieve_artists_info_from_csv(csv_file, limit=limit_per_hour)
+        
+        print(f"Pausing for 1 hour to respect API rate limits...")
+        time.sleep(3600)
+        file_index += 1
+
+base_path = "split_artists"
+process_multiple_csv_files(base_path)
