@@ -1,6 +1,7 @@
 import os
 import requests
 import pymongo
+import pandas as pd
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -40,7 +41,7 @@ def search_artist(artist_name, access_token):
         print(f"Artist ID: {artist_id}, Artist Name: {artist_name}")
         return artist_id
     else:
-        print(f"Artiste {artist_name} non trouvé.")
+        print(f"Artist {artist_name} not found.")
         return None
 
 def get_artist_info(artist_id, access_token):
@@ -64,7 +65,11 @@ def get_album_tracks(album_id, access_token):
 def insert_data_into_mongo(data, collection):
     collection.insert_one(data)
 
-def retrieve_artists_info(artist_names):
+def retrieve_artists_info_from_csv(csv_file):
+    df = pd.read_csv(csv_file)
+    
+    artist_names = df['artist_name'].tolist()
+    
     access_token = get_access_token()
 
     for artist_name in artist_names:
@@ -102,8 +107,7 @@ def retrieve_artists_info(artist_names):
                 artist_data['albums'].append(album_data)
 
             insert_data_into_mongo(artist_data, collection)
-            print(f"Les données de l'artiste {artist_name} ont été insérées dans MongoDB.")
+            print(f"The data for artist {artist_name} has been inserted into MongoDB.")
 
-artist_names = ['Adele', 'Drake', 'Taylor Swift', 'Ed Sheeran', 'Jul']
-
-retrieve_artists_info(artist_names)
+csv_file_path = 'split_artists/artists_chunk_2.csv'
+retrieve_artists_info_from_csv(csv_file_path)
