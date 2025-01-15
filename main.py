@@ -53,7 +53,7 @@ def main():
     CLIENT_SECRET = "db0529ed52344a3594433d70906a7b56"
     
     # URI MongoDB Atlas (remplace par ton URI)
-    MONGO_URI = "mongodb+srv://dada416:azerty@cluster.mongodb.net/myFirstDatabase"
+    MONGO_URI = "mongodb+srv://dada416:azerty@cluster0.o8o8r.mongodb.net/"
     DATABASE_NAME = "spotify_db"
     COLLECTION_NAME = "top_artists"
     
