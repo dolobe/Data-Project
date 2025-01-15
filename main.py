@@ -113,7 +113,7 @@ def retrieve_artists_info_from_csv(csv_file, limit=300):
             count += 1
 
 def process_multiple_csv_files(base_path, limit_per_hour=300):
-    file_index = 5
+    file_index = 40
     while True:
         csv_file = f"{base_path}/artists_chunk_{file_index}.csv"
         if not os.path.exists(csv_file):
