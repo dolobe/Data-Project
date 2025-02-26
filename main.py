@@ -13,7 +13,7 @@ def get_spotify_token(client_id, client_secret):
         raise Exception(f"Failed to get token: {response.text}")
 
 # 2. Récupérer les artistes les plus populaires
-def get_top_artists(token, limit=50):
+def get_top_artists(token, limit=300):
     url = f"https://api.spotify.com/v1/search"
     params = {
         "q": "genre:pop",  # Exemple : filtrer par genre "pop"
@@ -61,7 +61,7 @@ def main():
     token = get_spotify_token(CLIENT_ID, CLIENT_SECRET)
     
     # Obtenir les 50 artistes les plus populaires
-    top_artists = get_top_artists(token, limit=50)
+    top_artists = get_top_artists(token, limit=300)
     
     # Connexion à MongoDB
     client = MongoClient(MONGO_URI)
