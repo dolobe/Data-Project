@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"name": "split_artists",
+			"path": "../Data-Spotify-ML-0/split_artists"
+		},
+		{
+			"name": "Data-Spotify-ML-",
+			"path": "."
+		}
+	]
+}
