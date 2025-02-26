@@ -26,15 +26,13 @@ def home():
     <p>Utilisez <a href="/artists">/artists</a> pour voir les données des artistes.</p>
     '''
 
-# Route pour récupérer les artistes
 @app.route('/artists', methods=['GET'])
 def get_artists():
     """
     Récupère et affiche les artistes depuis MongoDB.
     """
     try:
-        # Récupération des artistes depuis MongoDB
-        artists = list(collection.find({}, {'_id': 0}))  # Exclure l'_id pour simplifier
+        artists = list(collection.find({}, {'_id': 0}))
         if not artists:
             return jsonify({'message': 'Aucun artiste trouvé dans la base de données.'}), 404
         
@@ -43,5 +41,4 @@ def get_artists():
         return jsonify({'error': f'Une erreur est survenue : {str(e)}'}), 500
 
 if __name__ == '__main__':
-    # Lancer l'application Flask
     app.run(debug=True, host='0.0.0.0', port=5000)
