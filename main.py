@@ -94,9 +94,12 @@ def insert_data_into_mongo(data, collection):
         print(f"Artist {data['name']} inserted into MongoDB.")
 
 def retrieve_artists_info_from_csv(csv_file, limit=300):
+<<<<<<< HEAD
+=======
     """
     Récupère les informations des artistes à partir d'un fichier CSV et les insère dans MongoDB.
     """
+>>>>>>> 2bb215a919ffccec89f396e0b4988e11adb5d5d2
     df = pd.read_csv(csv_file)
     artist_names = df['artist_name'].tolist()
     access_token = get_access_token()
@@ -140,6 +143,13 @@ def retrieve_artists_info_from_csv(csv_file, limit=300):
                 artist_data['albums'].append(album_data)
 
             insert_data_into_mongo(artist_data, collection)
+<<<<<<< HEAD
+            print(f"The data for artist {artist_name} has been inserted into MongoDB.")
+            count += 1
+
+def process_multiple_csv_files(base_path, limit_per_hour=300):
+    file_index = 2
+=======
             count += 1
 
 def process_multiple_csv_files(base_path, limit_per_hour=300):
@@ -148,6 +158,7 @@ def process_multiple_csv_files(base_path, limit_per_hour=300):
     """
     file_index = 301
     
+>>>>>>> 2bb215a919ffccec89f396e0b4988e11adb5d5d2
     while True:
         csv_file = f"{base_path}/artists_chunk_{file_index}.csv"
         if not os.path.exists(csv_file):
@@ -159,6 +170,12 @@ def process_multiple_csv_files(base_path, limit_per_hour=300):
         
         print(f"Pausing for 1 hour to respect API rate limits...")
         time.sleep(3600)
+<<<<<<< HEAD
+        file_index += 1
+
+base_path = "split_artists"
+process_multiple_csv_files(base_path)
+=======
         file_index -= 1
 
 base_path = "split_artists"
@@ -167,3 +184,4 @@ process_multiple_csv_files(base_path)
 df = fetch_artists_dataframe()
 
 print(df.head())
+>>>>>>> 2bb215a919ffccec89f396e0b4988e11adb5d5d2
