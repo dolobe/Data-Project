@@ -2,3 +2,7 @@ pymongo
 pandas
 requests
 python-dotenv
+scikit-learn
+sys
+matplotlib
+seaborn
